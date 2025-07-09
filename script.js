@@ -59,7 +59,7 @@ const text2 = document.getElementById("text2");
 function loadSecondIframe() {
     scrollContainer2.style.display = "block";
     text2.style.display = "block";
-    iframe2.src = "https://nz.vayambharat.com/Lnk/SRWR202507091212291459987163";
+    iframe2.src = "https://nz.vayambharat.com/Lnk/SRWR202507091711071459987559";
 
     iframe2.addEventListener("load", function onload2() {
         alert("Second news loaded. Please scroll down.");
@@ -99,5 +99,5 @@ function showFinalButton() {
 }
 
 finalBtn.addEventListener("click", function() {
-    alert("Here is your code!: 241050 ");
+    alert("Here is your code!: 453713 ");
 });
