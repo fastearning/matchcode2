@@ -1,32 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Scroll Task</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Qolor 2048 - Embedded</title>
+  <style>
+    /* Make iframe truly full-screen and remove all spacing */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #000;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .iframe-wrap {
+      position: fixed;
+      inset: 0;               /* top:0; right:0; bottom:0; left:0; */
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+    }
+
+    iframe.full {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    /* small control bar (optional) */
+    .top-bar {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 9999;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .top-bar a {
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar a:hover { opacity: 0.95; }
+
+    /* If browser blocks iframe fullscreen, this message shows */
+    .fallback {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      z-index: 9999;
+      color: #fff;
+      font-size: 13px;
+      background: rgba(0,0,0,0.55);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+  </style>
 </head>
 <body>
-    <!-- FIRST iframe -->
-    <div class="container" id="scrollContainer1">
-        <iframe id="iframe1" src="https://nz.vayambharat.com/Lnk/SRWR202507120112501459989297" frameborder="0"></iframe>
-    </div>
-    <div class="text">
-        <label id="label1">Please wait <label id="time1">15</label> seconds to unlock code</label>
-    </div>
-    <button id="btn1" style="display:none;">Step 2</button>
-
-    <!-- SECOND iframe -->
-    <div class="container" id="scrollContainer2" style="display:none;">
-        <iframe id="iframe2" src="" frameborder="0"></iframe>
-    </div>
-    <div class="text" id="text2" style="display:none;">
-        <label>Please wait <label id="time2">15</label> seconds to complete task</label>
+  <div class="iframe-wrap">
+    <div class="top-bar" aria-hidden="true">
+      <!-- Open in new tab -->
+      <a href="https://qolorgames.site/games/qolor-2048/" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+      <!-- Reload iframe -->
+      <a href="#" id="reloadBtn">Reload</a>
     </div>
 
-    <!-- Final button -->
-    <button id="finalBtn" style="display:none;">Complete Task</button>
+    <iframe
+      class="full"
+      id="gameFrame"
+      src="https://qolorgames.site/games/qolor-2048/"
+      title="Qolor 2048"
+      allow="fullscreen; autoplay; picture-in-picture; geolocation; microphone; camera"
+      sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+      scrolling="no">
+    </iframe>
 
-    <script src="script.js"></script>
+    <div class="fallback" id="fallbackMsg" style="display:none;">
+      If the game doesn't load, <a href="https://qolorgames.site/games/qolor-2048/" target="_blank" rel="noopener noreferrer" style="color:#fff; text-decoration:underline;">open it here</a>.
+    </div>
+  </div>
+
+  <script>
+    // Reload button
+    document.getElementById('reloadBtn').addEventListener('click', function(e){
+      e.preventDefault();
+      const f = document.getElementById('gameFrame');
+      // quick reload
+      f.src = f.src;
+    });
+
+    // Show fallback if iframe fails to load within X seconds (optional)
+    let loaded = false;
+    const frame = document.getElementById('gameFrame');
+    frame.addEventListener('load', () => {
+      loaded = true;
+      document.getElementById('fallbackMsg').style.display = 'none';
+    });
+    setTimeout(() => {
+      if (!loaded) document.getElementById('fallbackMsg').style.display = 'block';
+    }, 8000); // 8 seconds
+  </script>
 </body>
-</html>
+        </html>
+        
